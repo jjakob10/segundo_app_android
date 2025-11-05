@@ -15,7 +15,7 @@ import com.example.segundo_app.databinding.ActivityMainBinding
 
 class MainActivity2 : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var binding: ActivityMain2Binding;
+    private lateinit var binding: ActivityMain2Binding
     private var generator: CuriosityGenerator = CuriosityGenerator()
     private var selected: Int = 0
 

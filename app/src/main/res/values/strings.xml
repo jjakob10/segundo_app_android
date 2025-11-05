@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Segundo_app</string>
+    <string name="frases_de_gatos_e_cachorros">Frases de gatos e cachorros</string>
+    <string name="seu_nome">Seu nome</string>
+    <string name="guardar">Guardar</string>
+    <string name="nome_valido">Insira um nome válido!</string>
+    <string name="nova_gerada">Nova curiosidade gerada!</string>
+</resources>

@@ -1,38 +1,40 @@
-package com.example.segundo_app
+package com.example.segundo_app.ui
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.segundo_app.R
 import com.example.segundo_app.databinding.ActivityMainBinding
-import kotlin.apply
+import com.example.segundo_app.viewModel.MainViewModel
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding;
-    private lateinit var sp: SharedPreferences
+    private lateinit var mainVM: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sp = applicationContext.getSharedPreferences("CHAVE_ACESSO", Context.MODE_PRIVATE)
+        mainVM = ViewModelProvider(this).get(MainViewModel::class.java)
+        setObserver()
 
-
+        SharedPreferencesManager.init(this)
         binding.buttonGuardar.setOnClickListener(this)
+        mainVM.recoverName()
+    }
 
-        val nomeObtido = sp.getString("NOME", "")
-        if(nomeObtido != ""){
+    private fun setObserver() {
+        mainVM.getName().observe(this, Observer {
             startActivity(Intent(this, MainActivity2::class.java))
             finish()
-        }
+        })
     }
 
 
@@ -43,11 +45,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(applicationContext, R.string.nome_valido, Toast.LENGTH_SHORT).show()
             }
             else {
-                sp.edit().putString("NOME",nome ).apply()
-                val nomeObtido = sp.getString("NOME", "")
-                Toast.makeText(applicationContext, "Nome salvo: $nomeObtido", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, MainActivity2::class.java))
-                finish()
+                Toast.makeText(applicationContext, "${R.string.saved}: $nome", Toast.LENGTH_SHORT).show()
+                mainVM.saveName(nome)
             }
         }
     }

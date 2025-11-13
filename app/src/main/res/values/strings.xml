@@ -5,4 +5,7 @@
     <string name="guardar">Guardar</string>
     <string name="nome_valido">Insira um nome válido!</string>
     <string name="nova_gerada">Nova curiosidade gerada!</string>
+    <string name="saved">Nome salvo</string>
+    <string name="hello">Olá</string>
+
 </resources>

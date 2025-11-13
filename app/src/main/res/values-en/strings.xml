@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Second_app</string>
+    <string name="frases_de_gatos_e_cachorros">Cat and Dog Quotes</string>
+    <string name="seu_nome">Your name</string>
+    <string name="guardar">Save</string>
+    <string name="nome_valido">Enter a valid name!</string>
+    <string name="nova_gerada">New curiosity generated!</string>
+    <string name="saved">Name saved</string>
+    <string name="hello">Hello</string>
+</resources>

@@ -1,6 +1,6 @@
-package com.example.segundo_app
+package com.example.segundo_app.repository
 
-class CuriosityGenerator {
+class CuriosityRepository {
     companion object {
         private val curiosidadesGatos = listOf(
             "Os gatos dormem cerca de 70% da vida.",

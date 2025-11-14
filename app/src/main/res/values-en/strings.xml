@@ -8,4 +8,5 @@
     <string name="nova_gerada">New curiosity generated!</string>
     <string name="saved">Name saved</string>
     <string name="hello">Hello</string>
+    <string name="new_curiosity">Generate new phrase</string>
 </resources>

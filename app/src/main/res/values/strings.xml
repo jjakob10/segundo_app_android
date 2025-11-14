@@ -7,5 +7,6 @@
     <string name="nova_gerada">Nova curiosidade gerada!</string>
     <string name="saved">Nome salvo</string>
     <string name="hello">Olá</string>
+    <string name="new_curiosity">Gerar nova frase</string>
 
 </resources>

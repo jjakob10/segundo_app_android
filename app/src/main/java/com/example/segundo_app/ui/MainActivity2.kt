@@ -38,7 +38,7 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
 
     private fun setObserver() {
         mainVM.getName().observe(this, Observer {
-            binding.TextNome.text = "${R.string.hello}, $it!"
+            binding.TextNome.text = "${getString(R.string.hello)}, $it!"
         })
 
         mainVM.getSelected().observe(this, Observer{

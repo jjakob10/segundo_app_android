@@ -85,7 +85,7 @@
         android:id="@+id/gerarButton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Gerar nova frase"
+        android:text="@string/new_curiosity"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

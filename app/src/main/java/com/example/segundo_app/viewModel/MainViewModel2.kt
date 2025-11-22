@@ -4,17 +4,29 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.segundo_app.repository.CuriosityRepository
 import com.example.segundo_app.repository.catApi.CatClientRetrofit
 import com.example.segundo_app.repository.catApi.CatCuriosityEntity
 import com.example.segundo_app.repository.catApi.CatCuriosityService
+import com.example.segundo_app.repository.data.model.CuriosityModel
+import com.example.segundo_app.repository.data.room.CatAppDatabase
+import com.example.segundo_app.repository.data.room.DogAppDatabase
 import com.example.segundo_app.repository.dogApi.DogClientRetrofit
 import com.example.segundo_app.repository.dogApi.DogCuriosityEntity
 import com.example.segundo_app.repository.dogApi.DogCuriosityService
+import com.example.segundo_app.utils.NetworkUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel2(application: Application) : AndroidViewModel(application) {
+
+    val dogDb = DogAppDatabase.getDatabase(getApplication()).CuriosityDAO()
+    val catDb = CatAppDatabase.getDatabase(getApplication()).CuriosityDAO()
+
+    val local_curiosity = CuriosityRepository(dogDb, catDb)
+
+
     private var name = MutableLiveData<String>()
     private var selected = MutableLiveData(0)
     private var curiosity = MutableLiveData<String>()
@@ -28,6 +40,7 @@ class MainViewModel2(application: Application) : AndroidViewModel(application) {
     init {
         selectCat()
     }
+
     fun getCuriosity(): LiveData<String> {
         return curiosity
     }
@@ -35,32 +48,32 @@ class MainViewModel2(application: Application) : AndroidViewModel(application) {
     fun getSelected(): LiveData<Int> {
         return selected
     }
+
     fun getName(): LiveData<String> {
         return name
     }
 
-    fun recoverName(){
+    fun recoverName() {
         val n = SharedPreferencesManager.getString("NOME", "")
-        if(n != "") {
+        if (n != "") {
             name.value = n
         }
     }
 
-    fun selectDog(){
+    fun selectDog() {
         selected.value = 1
         if (!this::dogCuriosity.isInitialized) {
             updateCuriosity()
-        }
-        else {
+        } else {
             curiosity.value = dogCuriosity
         }
     }
 
-    fun selectCat(){
+    fun selectCat() {
         selected.value = 0
         if (!this::catCuriosity.isInitialized) {
             updateCuriosity()
-        }else {
+        } else {
             curiosity.value = catCuriosity
         }
     }
@@ -68,7 +81,15 @@ class MainViewModel2(application: Application) : AndroidViewModel(application) {
 
     fun updateCuriosity() {
 
-        if (selected.value == 0) {
+        if (!NetworkUtil.isInternetAvailable(getApplication())) {
+            curiosity.value = local_curiosity.getCuriosidade(selected.value!!)
+            local_curiosity.nextCuriosidade(selected.value!!)
+            if (selected.value == 0) {
+                catCuriosity = curiosity.value!!
+            } else {
+                dogCuriosity = curiosity.value!!
+            }
+        } else if (selected.value == 0) {
 
             // ==========================
             //         CAT API
@@ -85,6 +106,7 @@ class MainViewModel2(application: Application) : AndroidViewModel(application) {
                     if (response.isSuccessful) {
                         curiosity.value = response.body()?.fact ?: "Resposta de gato inválida"
                         catCuriosity = curiosity.value!!
+                        catDb.insert(CuriosityModel().apply {this.curiosity_text= catCuriosity })
                         return
                     }
 
@@ -124,6 +146,7 @@ class MainViewModel2(application: Application) : AndroidViewModel(application) {
                             ?: "Resposta de cachorro inválida"
 
                         dogCuriosity = curiosity.value!!
+                        dogDb.insert(CuriosityModel().apply {this.curiosity_text= dogCuriosity })
                         return
                     }
 

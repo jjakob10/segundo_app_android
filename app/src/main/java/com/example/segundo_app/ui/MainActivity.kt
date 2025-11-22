@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(applicationContext, R.string.nome_valido, Toast.LENGTH_SHORT).show()
             }
             else {
-                Toast.makeText(applicationContext, "${R.string.saved}: $nome", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "${getString(R.string.saved)}: $nome", Toast.LENGTH_SHORT).show()
                 mainVM.saveName(nome)
             }
         }

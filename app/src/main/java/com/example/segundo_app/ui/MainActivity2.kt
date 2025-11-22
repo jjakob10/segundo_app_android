@@ -64,6 +64,9 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
         })
 
         mainVM.getCuriosity().observe(this, Observer {
+            if(it == "")
+                binding.TextCuriosidade.text = getString(R.string.non_available)
+                else
             binding.TextCuriosidade.text = it
         })
     }

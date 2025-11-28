@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.segundo_app.repository.CuriosityRepository
@@ -58,7 +59,6 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
                         R.color.md_theme_surfaceContainerHighest_mediumContrast
                     )
                 )
-
             }
 
         })
@@ -88,5 +88,19 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
+    fun setFragmentDog() {
+
+        val bundle = bundleOf(
+            "CURIOSITY_STR" to 202523,
+            "PROD_NAME" to "Monitor TV"
+        )
+
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace<DogFragment>(R.id.fragment_container_view, args=bundle)
+        }
+    }
+
 
 }

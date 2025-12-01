@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.segundo_app.repository.CuriosityRepository
@@ -42,7 +44,7 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
             binding.TextNome.text = "${getString(R.string.hello)}, $it!"
         })
 
-        mainVM.getSelected().observe(this, Observer{
+        mainVM.getSelected().observe(this, Observer {
             if (it == 1) {
                 binding.cat.setColorFilter(ContextCompat.getColor(this, R.color.white))
                 binding.dog.setColorFilter(
@@ -64,10 +66,15 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
         })
 
         mainVM.getCuriosity().observe(this, Observer {
-            if(it == "")
-                binding.TextCuriosidade.text = getString(R.string.non_available)
-                else
-            binding.TextCuriosidade.text = it
+            val str = if (it == "")
+                getString(R.string.non_available)
+            else
+                it
+
+            if(mainVM.getSelected().value == 0)
+                setFragmentCat(str)
+            else
+                setFragmentDog(str)
         })
     }
 
@@ -89,16 +96,23 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun setFragmentDog() {
-
+    fun setFragmentDog(curiosity: String) {
         val bundle = bundleOf(
-            "CURIOSITY_STR" to 202523,
-            "PROD_NAME" to "Monitor TV"
+            "CURIOSITY_STR" to curiosity,
         )
-
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            replace<DogFragment>(R.id.fragment_container_view, args=bundle)
+            replace<DogFragment>(R.id.fragment_container_view, args = bundle)
+        }
+    }
+
+    fun setFragmentCat(curiosity: String) {
+        val bundle = bundleOf(
+            "CURIOSITY_STR" to curiosity,
+        )
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace<CatFragment>(R.id.fragment_container_view, args = bundle)
         }
     }
 

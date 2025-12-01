@@ -54,4 +54,5 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.5.0")
     implementation("androidx.room:room-runtime:2.4.3")
     kapt("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.fragment:fragment-ktx:1.5.4")
 }
